@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { set } from '../../reducers/scripture';
 import axios from 'axios';
+import logo from '../../src/logo-small.png';
 import './Nav.scss';
 
 //navigation component that allows user to select scripture reference
@@ -90,6 +91,7 @@ class Nav extends Component {
         <form onSubmit={this.search}>
           <input type="text" value={this.state.search} onChange={this.updateSearch} placeholder={displayReference} />
         </form>
+        <img src={logo} />
         <div className="nav-buttons">
           <span className="prev" onClick={this.prev}><i className="fa fa-angle-left" aria-hidden="true"></i></span>
           <span className="next" onClick={this.next}><i className="fa fa-angle-right" aria-hidden="true"></i></span>

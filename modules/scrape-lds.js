@@ -10,7 +10,6 @@ module.exports = (query) => {
 
   //sets url for scrape
   let url = `https://www.lds.org/scriptures/${_query.work}/${_query.book}/${_query.chap}`;
-  console.log(url);
 
   return axios.get(url).then((response) => {
 
