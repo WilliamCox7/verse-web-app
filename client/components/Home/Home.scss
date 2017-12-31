@@ -1,0 +1,13 @@
+@import '../../vars.scss';
+
+.Home {
+  max-width: 500px;
+  margin: auto;
+  @media(min-width: 500px) {
+    margin-top: 10px;
+  }
+  hr {
+    border-color: #ffffff4d;
+    margin: auto;
+  }
+}
