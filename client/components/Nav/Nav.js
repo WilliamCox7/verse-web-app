@@ -9,9 +9,14 @@ class Nav extends Component {
 
   constructor() {
     super();
+    this.state = {
+      search: ''
+    }
     this.prev = this.prev.bind(this);
     this.next = this.next.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
+    this.search = this.search.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
   }
 
   prev() {
@@ -31,23 +36,60 @@ class Nav extends Component {
   }
 
   sendRequest(book, chap, vers) {
-    axios.get(`/scripture?work=bofm&book=${book}&chap=${chap}&vers=${vers}`).then((response) => {
+    return axios.get(`/scripture?work=bofm&book=${book}&chap=${chap}&vers=${vers}`).then((response) => {
       if (response.status === 200) {
         var reference = response.data[0];
         this.props.set(reference);
         localStorage.setItem('scripture', JSON.stringify(reference));
+        return true;
       } else {
         var showVerse = vers ? ':' + vers : ':1';
         alert(`Could not fetch ${book} ${chap}${showVerse}`);
         console.log(response);
+        return false;
       }
     });
   }
 
+  search() {
+    var book = "", chap, vers, count = 0;
+    var ref = this.state.search;
+    ref = ref.split(" ");
+    ref.forEach((part) => {
+      if (part.indexOf(":") === -1) {
+        if (count > 0) {
+          book += " " + part;
+        } else {
+          book += part;
+        }
+      } else {
+        part = part.split(":");
+        chap = part[0];
+        vers = part[1];
+      }
+    });
+    this.sendRequest(book, chap, vers).then((success) => {
+      if (success) {
+        this.setState({search: ""});
+      }
+    });
+
+  }
+
+  updateSearch(e) {
+    this.setState({search: e.target.value});
+  }
+
   render() {
+
+    var ref = this.props.scripture.reference;
+    var displayReference = ref.book + ' ' + ref.chap + ':' + ref.vers;
+
     return (
       <div className="Nav">
-        <h1>The Book of Mormon</h1>
+        <form onSubmit={this.search}>
+          <input type="text" value={this.state.search} onChange={this.updateSearch} placeholder={displayReference} />
+        </form>
         <div className="nav-buttons">
           <span className="prev" onClick={this.prev}><i className="fa fa-angle-left" aria-hidden="true"></i></span>
           <span className="next" onClick={this.next}><i className="fa fa-angle-right" aria-hidden="true"></i></span>

@@ -7,10 +7,10 @@ class Verse extends Component {
 
   render() {
 
-    var book, letter;
+    var book, letter, ref = this.props.scripture.reference;
 
-    if (this.props.scripture.reference) {
-      book = this.props.scripture.reference.book;
+    if (ref) {
+      book = ref.book;
       if (book) {
         if (isNaN(book[0])) {
           letter = book[0].toUpperCase();
@@ -30,7 +30,10 @@ class Verse extends Component {
           <span>{book}</span>
         </div>
         <div className="text">
-          {this.props.scripture.reference.text}
+          {ref.text}
+          {/*<div className="year">
+            600 B.C.
+          </div>*/}
         </div>
       </div>
     );

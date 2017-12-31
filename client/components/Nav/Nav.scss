@@ -16,9 +16,12 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  h1 {
+  input[type="text"] {
     margin-left: 10px;
     color: $black;
+    padding: 5px;
+    border: none;
+    font-size: 16px;
   }
   .nav-buttons {
     display: -webkit-box;
