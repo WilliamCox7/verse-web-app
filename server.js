@@ -20,6 +20,7 @@ app.use(session({
 const ScriptureService = require('./services/ScriptureService');
 
 app.get('/scripture', ScriptureService.getScripture);
+app.post('/comment', ScriptureService.addComment);
 
 app.listen(app.get('port'), () => {
   console.log('localhost:' + app.get('port'));

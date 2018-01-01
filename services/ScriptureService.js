@@ -2,6 +2,8 @@ const axios = require('axios');
 const getScripture = require('../modules/get-scripture');
 const scrapeLds = require('../modules/scrape-lds');
 const translator = require('../modules/translator');
+const getComments = require('../modules/get-comments');
+const addComment = require('../modules/add-comment');
 
 module.exports = {
 
@@ -16,8 +18,14 @@ module.exports = {
     //retrieves scripture from db (checks to see if it exists)
     getScripture(req.query).then((result) => {
       if (result.length > 0) {
-        result[0] = translator.prepareForClient(result[0]);
-        res.status(200).send(result);
+
+        //retrieves comments for specified scripture
+        getComments(result[0]._id).then((comments) => {
+          result[0].comments = comments;
+          result[0] = translator.prepareForClient(result[0]);
+          res.status(200).send(result);
+        });
+
       } else {
 
         //if scripture doesn't exist in db, scrape lds.org for scripture
@@ -32,6 +40,17 @@ module.exports = {
 
         });
 
+      }
+    });
+  },
+
+  addComment: (req, res) => {
+    addComment(req.body).then((result) => {
+      if (result.ops.length > 0) {
+        res.status(200).send(result.ops[0]);
+      } else {
+        res.status(500).send(result);
+        console.log(result);
       }
     });
   }

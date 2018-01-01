@@ -1,7 +1,9 @@
-const SET = 'cart/SET';
+const SET = 'scripture/SET';
+const ADD_COM = 'scripture/ADD_COM';
 
 const initState = {
-  reference: {}
+  reference: {},
+  comments: []
 }
 
 export default function reducer(state=initState, action) {
@@ -11,6 +13,7 @@ export default function reducer(state=initState, action) {
     //sets the current scripture reference to the payload
     case SET:
       editState.reference = {
+        _id: action.payload._id,
         work: action.payload.work,
         book: action.payload.book,
         chap: action.payload.chap,
@@ -22,6 +25,12 @@ export default function reducer(state=initState, action) {
         nextChap: action.payload.nextChap,
         lastVerse: action.payload.lastVerse
       }
+      editState.comments = action.payload.comments;
+      return Object.assign({}, state, editState);
+
+    //adds comment to display of comments
+    case ADD_COM:
+      editState.comments.push(action.payload);
       return Object.assign({}, state, editState);
 
     default: return state;
@@ -34,5 +43,13 @@ export function set(reference) {
   return {
     type: SET,
     payload: reference
+  }
+}
+
+//adds comment to display of comments
+export function addComment(comment) {
+  return {
+    type: ADD_COM,
+    payload: comment
   }
 }

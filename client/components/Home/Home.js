@@ -4,6 +4,10 @@ import axios from 'axios';
 import { set } from '../../reducers/scripture';
 import Verse from '../Verse/Verse';
 import Nav from '../Nav/Nav';
+import Section from '../Section/Section';
+import TextSection from '../TextSection/TextSection';
+import TextareaSection from '../TextareaSection/TextareaSection';
+import me from '../../src/will.jpg';
 import './Home.scss';
 
 //container component for main app functionality
@@ -29,13 +33,31 @@ class Home extends Component {
   }
 
   render() {
+
+    var subSections = this.props.scripture.comments.map((comment, i) => {
+      return (
+        <TextSection text={comment.comment} key={i} />
+      );
+    });
+
+    subSections.unshift(
+      <TextareaSection key="add-comment-key" placeholder="add a comment..." />
+    );
+
     return (
       <div className="Home">
         <Nav />
         <Verse />
         <hr/>
+        <Section title={'Will'} circleImage={me} subSections={subSections} reverse={true} />
       </div>
     );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    scripture: state.scripture
   }
 }
 
@@ -43,4 +65,4 @@ const mapDispatchToProps = {
   set: set
 }
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

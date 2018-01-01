@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Section from '../Section/Section';
+import TextSection from '../TextSection/TextSection';
 import './Verse.scss';
 
 //component that displays the current verse at the top of the screen
@@ -25,16 +27,7 @@ class Verse extends Component {
 
     return (
       <div className="Verse">
-        <div className="verse-circle">
-          <div className="circle">{letter}</div>
-          <span>{book}</span>
-        </div>
-        <div className="text">
-          {ref.text}
-          {/*<div className="year">
-            600 B.C.
-          </div>*/}
-        </div>
+        <Section title={book} letter={letter} subSections={[<TextSection text={ref.text} key="verse-section-key" />]} />
       </div>
     );
   }

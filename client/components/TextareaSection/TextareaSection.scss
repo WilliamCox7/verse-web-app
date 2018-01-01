@@ -1,0 +1,52 @@
+@import "../../vars.scss";
+
+.TextareaSection {
+  -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.16);
+          box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.16);
+  background: $lightgray;
+  margin-bottom: 5px;
+  textarea {
+    resize: none;
+    background: none;
+    color: $black;
+    width: 100%;
+    line-height: 20px;
+    font-size: 14px;
+    padding: 5px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border: none;
+
+    &::-webkit-input-placeholder {
+      color: $midgray;
+    }
+    &:-ms-input-placeholder {
+      color: $midgray;
+    }
+    &::-ms-input-placeholder {
+      color: $midgray;
+    }
+    &::placeholder {
+      color: $midgray;
+    }
+  }
+  .buttons {
+    margin-bottom: 4px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    button {
+      cursor: pointer;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      background: $darkgray;
+      color: $black;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+  }
+}
