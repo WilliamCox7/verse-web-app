@@ -39,7 +39,7 @@ export default function reducer(state=initState, action) {
 }
 
 //sets the current scripture reference to the payload
-export function set(reference) {
+export function setReference(reference) {
   return {
     type: SET,
     payload: reference

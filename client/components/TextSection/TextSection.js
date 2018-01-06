@@ -1,16 +1,18 @@
-import React, { Component } from 'react';
+import { Component } from '../packages';
+import { template } from './modules';
 import './TextSection.scss';
 
-//component that displays plain text
 class TextSection extends Component {
 
   render() {
-    return (
-      <div className="TextSection">
-        <pre>{this.props.text}</pre>
-      </div>
-    );
+    return template(this);
   }
+
 }
 
 export default TextSection;
+
+/*
+ *  TextSection: component that displays plain text
+ *
+ */
