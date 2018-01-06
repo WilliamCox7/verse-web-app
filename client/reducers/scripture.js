@@ -30,7 +30,7 @@ export default function reducer(state=initState, action) {
 
     //adds comment to display of comments
     case ADD_COM:
-      editState.comments.push(action.payload);
+      editState.comments.unshift(action.payload);
       return Object.assign({}, state, editState);
 
     default: return state;

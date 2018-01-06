@@ -1,5 +1,5 @@
-import { setReference } from './scripture';
+import { setReference, addComment } from './scripture';
 
 export {
-  setReference
+  setReference, addComment
 }

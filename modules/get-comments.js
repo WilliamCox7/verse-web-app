@@ -9,6 +9,7 @@ module.exports = (ObjectID) => {
       collection.find({
         "scriptureId": ObjectID
       }, (err, result) => {
+        result = result.sort({"_id": -1});
         result.toArray((err, result) => {
           if (err) {
             reject(err);
