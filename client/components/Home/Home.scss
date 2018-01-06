@@ -3,6 +3,7 @@
 .Home {
   max-width: 500px;
   margin: auto;
+  height: 100vh;
   @media(min-width: 500px) {
     margin-top: 10px;
   }

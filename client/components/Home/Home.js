@@ -1,8 +1,13 @@
 import { Component, connect } from '../packages';
-import { componentDidMount, template, mapStateToProps, mapDispatchToProps } from './modules';
+import { construct, componentDidMount, template, mapStateToProps, mapDispatchToProps } from './modules';
 import './Home.scss';
 
 class Home extends Component {
+
+  constructor() {
+    super();
+    construct(this);
+  }
 
   componentDidMount() {
     componentDidMount(this);
@@ -11,7 +16,7 @@ class Home extends Component {
   render() {
     return template(this);
   }
-  
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -1,4 +1,4 @@
-import { React } from '../../packages';
+import { React, Swipeable } from '../../packages';
 import { Nav, Section, TextareaSection, TextSection, Verse } from '../../components';
 import { images } from '../../../assets';
 
@@ -14,12 +14,14 @@ export function template(Home) {
   );
 
   return (
-    <div className="Home">
-      <Nav />
-      <Verse />
-      <hr/>
-      <Section title={'Will'} circleImage={images.me} subSections={subSections} reverse={true} />
-    </div>
+    <Swipeable onSwipedLeft={Home.swipedLeft} onSwipedRight={Home.swipedRight}>
+      <div className="Home">
+        <Nav />
+        <Verse />
+        <hr/>
+        <Section title={'Will'} circleImage={images.me} subSections={subSections} reverse={true} />
+      </div>
+    </Swipeable>
   );
 }
 
