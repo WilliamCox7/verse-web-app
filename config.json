@@ -1,12 +1,12 @@
 {
-  "production": {
+  "mongo-prod": {
     "host": "ds225028.mlab.com",
     "port": "25028",
     "base": "verse-web-app",
     "user": "willubyu7",
     "pass": "Kmalone32"
   },
-  "development": {
+  "mongo-dev": {
     "host": "localhost",
     "port": "27017",
     "base": "verse-web-app"

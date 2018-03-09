@@ -1,6 +1,6 @@
 @import "../../vars.scss";
 
-.Login {
+.Home {
   .logo {
     width: 100vw;
     height: 100vh;
@@ -11,9 +11,5 @@
   .fb-login-button {
     position: absolute;
     bottom: 90px;
-    i {
-      font-size: 40px;
-      color: $purple;
-    }
   }
 }

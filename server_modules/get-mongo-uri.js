@@ -7,8 +7,8 @@ let production = process.env.NODE_ENV; // determines if env is in production or 
 // returns the appropriate configuration
 let conf = nconf.get(
   production
-  ? 'production'
-  : 'development'
+  ? 'mongo-prod'
+  : 'mongo-dev'
 );
 
 // returns the appropriate uri

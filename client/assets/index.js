@@ -1,4 +1,5 @@
 import logoSmall from './logo-small.png';
+import logoLogin from './logo-login.svg';
 import me from './will.jpg';
 
 /**
@@ -6,5 +7,5 @@ import me from './will.jpg';
  */
 
 export {
-  logoSmall, me
+  logoSmall, logoLogin, me
 }
