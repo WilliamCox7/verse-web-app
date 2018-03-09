@@ -31,6 +31,7 @@ module.exports = {
         //if scripture doesn't exist in db, scrape lds.org for scripture
         scrapeLds(req.query).then((result) => {
           if (result.ops.length > 0) {
+            result.ops[0].comments = [];
             result.ops[0] = translator.prepareForClient(result.ops[0]);
             res.status(200).send(result.ops);
           } else {

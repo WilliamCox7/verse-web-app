@@ -7,6 +7,7 @@ module.exports = (query) => {
 
   //translates the query parameters for scrape
   _query = translator.prepareForScrape(Object.assign({}, query));
+  query.work = _query.work;
 
   //sets url for scrape
   let url = `https://www.lds.org/scriptures/${_query.work}/${_query.book}/${_query.chap}`;
@@ -43,6 +44,12 @@ module.exports = (query) => {
     query.prevBook = prev[5].split("?")[0];
     query.prevChap = prev[6] ? Number(prev[6].split("?")[0]) : 1;
     query.nextBook = next[5].split("?")[0];
+
+    if (query.vers === lastVerse) {
+      query.nextChap = 1;
+    } else {
+
+    }
     query.nextChap = next[6] ? Number(next[6].split("?")[0]) : 1;
 
     //save last verse information

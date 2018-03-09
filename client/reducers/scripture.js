@@ -26,6 +26,7 @@ export default function reducer(state=initState, action) {
         lastVerse: action.payload.lastVerse
       }
       editState.comments = action.payload.comments;
+      console.log(editState);
       return Object.assign({}, state, editState);
 
     //adds comment to display of comments

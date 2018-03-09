@@ -1,7 +1,7 @@
 import { axios } from '../../packages';
 
 export function sendRequest(book, chap, vers, Nav) {
-  return axios.get(`/scripture?work=bofm&book=${book}&chap=${chap}&vers=${vers}`).then((response) => {
+  return axios.get(`/scripture?work=&book=${book}&chap=${chap}&vers=${vers}`).then((response) => {
     if (response.status === 200) {
       var reference = response.data[0];
       Nav.props.setReference(reference);
