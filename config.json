@@ -1,0 +1,14 @@
+{
+  "production": {
+    "host": "ds225028.mlab.com",
+    "port": "25028",
+    "base": "verse-web-app",
+    "user": "willubyu7",
+    "pass": "Kmalone32"
+  },
+  "development": {
+    "host": "localhost",
+    "port": "27017",
+    "base": "verse-web-app"
+  }
+}

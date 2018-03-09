@@ -1,27 +1,25 @@
-/* PACKAGES */
+// packages
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
-const session = require('express-session');
+const path = require('path');
+const ss = require('./server_services/scripture-service');
+
+// express setup
 const app = module.exports = express();
-
-/* APP */
 app.set('port', (process.env.PORT || 3000));
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(cors());
+app.use(bodyParser.json());
 app.use(express.static(__dirname + '/build'));
-app.use(session({
-  secret: 'asf98c3493ch4thw2405c9hq3',
-  resave: true,
-  saveUninitialized: true,
-  cookie: {maxAge: 1000 * 60 * 60 * 24}
-}));
 
-const ScriptureService = require('./services/ScriptureService');
+// routes
+app.get('/scripture', ss.getScripture);
+app.post('/comment', ss.addComment);
 
-app.get('/scripture', ScriptureService.getScripture);
-app.post('/comment', ScriptureService.addComment);
+// wildcard route - allows for browser refresh while using react router
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './build/index.html'))
+});
 
+// express app is running - success message
 app.listen(app.get('port'), () => {
   console.log('localhost:' + app.get('port'));
 });

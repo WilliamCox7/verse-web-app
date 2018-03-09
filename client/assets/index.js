@@ -1,8 +1,10 @@
-const images = {
-  logoSmall: require('./logo-small.png'),
-  me: require('./will.jpg')
-}
+import logoSmall from './logo-small.png';
+import me from './will.jpg';
+
+/**
+ * exports all assets for easy access
+ */
 
 export {
-  images
+  logoSmall, me
 }

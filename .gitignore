@@ -1,6 +1,4 @@
 node_modules
-config
 build/*
 !build/index.html
-wireframe
 .DS_Store
