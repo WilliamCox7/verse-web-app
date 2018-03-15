@@ -19,7 +19,11 @@ module.exports = (verse) => new Promise((resolve, reject) => {
             db.collection('scriptures').find({ _id: result[0].prevId }).toArray(),
             db.collection('scriptures').find({ _id: result[0].nextId }).toArray()
           ]).then((surrounding) => {
-            resolve([surrounding[0][0], result[0], surrounding[1][0]])
+            // db.collection('scriptures').find({ _id: surrounding[0][0].prevId }).toArray((err, extraResult) => {
+            //   if (err) reject(err);
+            //   resolve([extraResult[0], surrounding[0][0], result[0], surrounding[1][0]])
+            // });
+            resolve([surrounding[0][0], result[0], surrounding[1][0]]);
           }).catch((err) => {
             reject(err);
           })

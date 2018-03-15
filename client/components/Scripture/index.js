@@ -1,4 +1,5 @@
-import { React, Component, SwipeableViews, connect } from '../../packages';
+import { React, Component, SwipeableViews, connect, axios } from '../../packages';
+import { addScriptureToEnd, addScriptureToStart, setIndices, setReference } from '../../reducers/scripture';
 import { Verse } from '../';
 import './style.scss';
 
@@ -12,12 +13,31 @@ class Scripture extends Component {
   constructor() {
     super();
     this.state = {
-      index: 1
+      index: 101
     }
     this.changeIndex = this.changeIndex.bind(this);
   }
 
+  componentDidMount() {
+    let indices = [];
+    for (var i = 0; i < 100; i++) {
+      indices.push(false);
+    }
+    this.props.setIndices(indices);
+  }
+
   changeIndex(index) {
+    let verses = this.props.scripture.verses;
+    if (!verses[index-1]) {
+      axios.get('/verse/' + verses[index].prevId).then((response) => {
+        this.props.addScriptureToStart(response.data[0], index-1);
+      });
+    } else if (index === verses.length-1) {
+      axios.get('/verse/' + verses[verses.length-1].nextId).then((response) => {
+        this.props.addScriptureToEnd(response.data[0]);
+      });
+    }
+    this.props.setReference(verses[index]);
     this.setState({index: index});
   }
 
@@ -29,9 +49,9 @@ class Scripture extends Component {
 
     return (
       <div className="Scripture">
-        {verses.length > 0 ? (
-          <SwipeableViews index={this.state.index} onChangeIndex={this.changeIndex} style={{'height': '100%'}}>
-            {verses}
+        {verses.length > 100 ? (
+          <SwipeableViews children={verses} index={this.state.index}
+            onChangeIndex={this.changeIndex} style={{'height': '100%'}}>
           </SwipeableViews>
         ) : null}
       </div>
@@ -45,4 +65,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Scripture);
+const mapDispatchToProps = {
+  addScriptureToEnd: addScriptureToEnd,
+  addScriptureToStart: addScriptureToStart,
+  setIndices: setIndices,
+  setReference: setReference
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scripture);

@@ -1,4 +1,5 @@
 module.exports = {
   getMongoUri: require('./get-mongo-uri'),
-  getInitVerses: require('./get-init-verses')
+  getInitVerses: require('./get-init-verses'),
+  getVerse: require('./get-verse')
 }
