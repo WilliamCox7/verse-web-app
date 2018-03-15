@@ -41,7 +41,7 @@ class Menu extends Component {
             <h1>timeline</h1>
           </div>
           <div className="comment-button flex jc-c ai-c">
-            <img src={this.props.user.picture} />
+            <img src={this.props.user.url} />
             <h1>comment</h1>
           </div>
           <div onTouchEnd={this.props.hideMenu} className="add-section-menu flex jc-c ai-c">

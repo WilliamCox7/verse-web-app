@@ -32,6 +32,11 @@ class HandleFbRedirect extends Component {
       self.checkLoginState();
 
     };
+    let user = localStorage.getItem("user");
+    if (user) {
+      user = JSON.parse(user);
+      self.props.setUser(user.url, user.userId);
+    }
   }
 
   /**
@@ -53,11 +58,12 @@ class HandleFbRedirect extends Component {
   statusChangeCallback(response) {
     let self = this;
     if (response.status === 'connected') {
-      FB.api(`/${response.authResponse.userID}/picture`, 'GET', {
+      self.userId = response.authResponse.userID;
+      FB.api(`/${self.userId}/picture`, 'GET', {
         "redirect": "false"
       }, function(response) {
-        console.log(response);
-        self.props.setUser(response.data.url, response.authResponse.userID);
+        localStorage.setItem("user", JSON.stringify({userId: self.userId, url: response.data.url}));
+        self.props.setUser(response.data.url, self.userId);
       });
       self.props.history.push('/');
       self.props.updatePathname('/');

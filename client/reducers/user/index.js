@@ -1,7 +1,7 @@
 const SET = 'user/SET';
 
 const initState = {
-  picture: null,
+  url: null,
   userId: null
 }
 
@@ -17,7 +17,7 @@ export default function reducer(state=initState, action) {
   switch(action.type) {
 
     case SET:
-      editState.picture = action.url;
+      editState.url = action.url;
       editState.userId = action.userId;
       return Object.assign({}, state, editState);
 
