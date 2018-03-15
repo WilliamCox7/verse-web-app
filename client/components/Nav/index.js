@@ -29,9 +29,8 @@ class Nav extends Component {
         <div className="logo flex jc-c ai-c">
           <img src={logoSmall} />
         </div>
-        <div className="buttons flex jc-fe ai-c">
-          <i className="material-icons">keyboard_arrow_left</i>
-          <i className="material-icons">keyboard_arrow_right</i>
+        <div className="settings flex jc-fe ai-c">
+          <i className="material-icons">settings</i>
         </div>
       </div>
     );
