@@ -1,4 +1,4 @@
-import { React, Component } from '../../packages';
+import { React, Component, connect } from '../../packages';
 import { context, geneology, link, military, prophet, ruler, timeline } from '../../assets';
 import './style.scss';
 
@@ -40,6 +40,10 @@ class Menu extends Component {
             <img src={timeline} />
             <h1>timeline</h1>
           </div>
+          <div className="comment-button flex jc-c ai-c">
+            <img src={this.props.user.picture} />
+            <h1>comment</h1>
+          </div>
           <div onTouchEnd={this.props.hideMenu} className="add-section-menu flex jc-c ai-c">
             <h1>+</h1>
           </div>
@@ -49,4 +53,10 @@ class Menu extends Component {
   }
 }
 
-export default Menu;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(Menu);

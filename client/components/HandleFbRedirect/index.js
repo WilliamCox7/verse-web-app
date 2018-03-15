@@ -1,4 +1,5 @@
-import { React, Component, withRouter } from '../../packages';
+import { React, Component, withRouter, connect } from '../../packages';
+import { setUser } from '../../reducers/user';
 
 /**
  * This handles whether or not the user is logged in
@@ -52,6 +53,11 @@ class HandleFbRedirect extends Component {
   statusChangeCallback(response) {
     let self = this;
     if (response.status === 'connected') {
+      FB.api(`/${response.authResponse.userID}/picture`, 'GET', {
+        "redirect": "false"
+      }, function(response) {
+        self.props.setUser(response.data.url);
+      });
       self.props.history.push('/');
       self.props.updatePathname('/');
     } else {
@@ -67,4 +73,8 @@ class HandleFbRedirect extends Component {
   }
 }
 
-export default withRouter(HandleFbRedirect);
+const mapDispatchToProps = {
+  setUser: setUser
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(HandleFbRedirect));
