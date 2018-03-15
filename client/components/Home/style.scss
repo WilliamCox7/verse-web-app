@@ -5,9 +5,11 @@
   height: calc(100vh - 50px);
   .search-ref {
     margin-bottom: 15px;
-    select {
-      margin-right: 6px;
-      max-width: 100px;
+    .selects {
+      width: 100%;
+      select {
+        margin: 2px;
+      }
     }
   }
   .swipe-list {

@@ -34,8 +34,9 @@ function getVerses(works, books, chapters, component) {
   let book = books[component.state.bookIndex];
   let chap = chapters[component.state.chapIndex];
   let numVerses = options[work][book][chap];
-  let verseOptions = [], spans = [];
+  let verseOptions = [], spans = [], arr = [];
   for (var i = 0; i < numVerses; i++) {
+    arr.push(i+1);
     verseOptions.push(
       <option value={i} key={i}>{i+1}</option>
     );
@@ -46,7 +47,8 @@ function getVerses(works, books, chapters, component) {
   }
   return {
     options: verseOptions,
-    spans: spans
+    spans: spans,
+    arr: arr
   };
 }
 

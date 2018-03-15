@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/build'));
 
 // routes
+app.get('/verse/:work/:book/:chap/:vers', ss.getInitVerses);
 
 // wildcard route - allows for browser refresh while using react router
 app.get('*', (req, res) => {

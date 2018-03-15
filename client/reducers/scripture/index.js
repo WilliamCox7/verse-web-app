@@ -1,16 +1,9 @@
-const sm = require('./modules');
-
 const SET = 'scripture/SET';
 const ADD_COM = 'scripture/ADD_COM';
 
 const initState = {
-  reference: {
-    abrString: '1 Ne 10:26',
-    work: 'bofm',
-    book: '1 Nephi',
-    chap: 1,
-    vers: 1
-  },
+  abrString: 'Gen 1:1',
+  verses: [],
   comments: []
 }
 
@@ -26,7 +19,9 @@ export default function reducer(state=initState, action) {
   switch(action.type) {
 
     case SET:
-      editState = sm.setReference(editState);
+      let p = action.payload;
+      editState.verses = action.payload;
+      editState.abrString = `${p[1].bookAbr} ${p[1].chapter}:${p[1].verse}`;
       return Object.assign({}, state, editState);
 
     case ADD_COM:
@@ -43,10 +38,10 @@ export default function reducer(state=initState, action) {
  * @param {object} reference contains all things pertaining to the scripture
  */
 
-export function setReference(reference) {
+export function setVerses(verses) {
   return {
     type: SET,
-    payload: reference
+    payload: verses
   }
 }
 

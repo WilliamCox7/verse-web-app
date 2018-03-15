@@ -12,7 +12,7 @@ class Nav extends Component {
     return (
       <div className="Nav flex jc-sb">
         <Link to={"/"} className="reference flex ai-c">
-          {this.props.scripture.reference.abrString}
+          {this.props.scripture.abrString}
         </Link>
         <div className="logo flex jc-c ai-c">
           <img src={logoSmall} />

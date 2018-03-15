@@ -1,5 +1,7 @@
-import { React, Component, connect, SwipeableViews } from '../../packages';
+import { React, Component, connect, SwipeableViews, axios } from '../../packages';
+import { Scripture } from '../';
 import { buildOptionsFor } from './modules';
+import { setVerses } from '../../reducers/scripture';
 import './style.scss';
 
 /**
@@ -29,6 +31,7 @@ class Home extends Component {
     this.disablePulling = this.disablePulling.bind(this);
     this.enablePulling = this.enablePulling.bind(this);
     this.updatedSwipeIndex = this.updatedSwipeIndex.bind(this);
+    this.setVerse = this.setVerse.bind(this);
   }
 
   changeIndex(e) {
@@ -111,31 +114,46 @@ class Home extends Component {
     this.setState({swipeIndex: index});
   }
 
+  setVerse(o) {
+    let wi = this.state.workIndex;
+    let bi = this.state.bookIndex;
+    let ci = this.state.chapIndex;
+    let vi = this.state.versIndex;
+    axios.get(`/verse/${o.works.arr[wi]}/${o.books.arr[bi]}/${o.chapters.arr[ci]}/${o.verses.arr[vi]}`).then((response) => {
+      console.log(response);
+      this.props.setVerses(response.data);
+    });
+  }
+
   render() {
 
     let options = buildOptionsFor(this);
 
     return (
       <div className="Home">
-        <div className="search-ref flex jc-sb">
-          <div className="selects">
-            <select value={this.state.workIndex} name="workIndex" onChange={this.changeIndex}>{options.works.options}</select>
-            <select value={this.state.bookIndex} name="bookIndex" onChange={this.changeIndex}>{options.books.options}</select>
-            <select value={this.state.chapIndex} name="chapIndex" onChange={this.changeIndex}>{options.chapters.options}</select>
-            <select value={this.state.versIndex} name="versIndex" onChange={this.changeIndex}>{options.verses.options}</select>
+        <SwipeableViews onChangeIndex={() => this.setVerse(options)}>
+          <div>
+            <div className="search-ref flex jc-sb">
+              <div className="selects flex">
+                <select value={this.state.workIndex} name="workIndex" onChange={this.changeIndex}>{options.works.options}</select>
+                <select value={this.state.bookIndex} name="bookIndex" onChange={this.changeIndex}>{options.books.options}</select>
+                <select value={this.state.chapIndex} name="chapIndex" onChange={this.changeIndex}>{options.chapters.options}</select>
+                <select value={this.state.versIndex} name="versIndex" onChange={this.changeIndex}>{options.verses.options}</select>
+              </div>
+            </div>
+            <SwipeableViews index={this.state.swipeIndex} onChangeIndex={this.updatedSwipeIndex} style={{'overflowY': 'scroll', 'height': 'calc(100vh - 175px)'}}
+              onSwitching={this.disablePulling} onTransitionEnd={this.enablePulling}>
+              <div className="swipe-list flex fd-c fw-w" id="work" onTouchStart={(e) => this.setPulling(e, 'work')}
+                onTouchMove={this.updatePullingIndex} onTouchEnd={this.stopPulling}>{options.works.spans}</div>
+              <div className="swipe-list flex fd-c fw-w" id="book" onTouchStart={(e) => this.setPulling(e, 'book')}
+                onTouchMove={this.updatePullingIndex} onTouchEnd={this.stopPulling}>{options.books.spans}</div>
+              <div className="swipe-list flex fd-c fw-w" id="chap" onTouchStart={(e) => this.setPulling(e, 'chap')}
+                onTouchMove={this.updatePullingIndex} onTouchEnd={this.stopPulling}>{options.chapters.spans}</div>
+              <div className="swipe-list flex fd-c fw-w" id="vers" onTouchStart={(e) => this.setPulling(e, 'vers')}
+                onTouchMove={this.updatePullingIndex} onTouchEnd={this.stopPulling}>{options.verses.spans}</div>
+            </SwipeableViews>
           </div>
-          <button>go</button>
-        </div>
-        <SwipeableViews index={this.state.swipeIndex} onChangeIndex={this.updatedSwipeIndex} style={{'overflowY': 'scroll', 'height': 'calc(100vh - 175px)'}}
-          onSwitching={this.disablePulling} onTransitionEnd={this.enablePulling}>
-          <div className="swipe-list flex fd-c fw-w" id="work" onTouchStart={(e) => this.setPulling(e, 'work')}
-            onTouchMove={this.updatePullingIndex} onTouchEnd={this.stopPulling}>{options.works.spans}</div>
-          <div className="swipe-list flex fd-c fw-w" id="book" onTouchStart={(e) => this.setPulling(e, 'book')}
-            onTouchMove={this.updatePullingIndex} onTouchEnd={this.stopPulling}>{options.books.spans}</div>
-          <div className="swipe-list flex fd-c fw-w" id="chap" onTouchStart={(e) => this.setPulling(e, 'chap')}
-            onTouchMove={this.updatePullingIndex} onTouchEnd={this.stopPulling}>{options.chapters.spans}</div>
-          <div className="swipe-list flex fd-c fw-w" id="vers" onTouchStart={(e) => this.setPulling(e, 'vers')}
-            onTouchMove={this.updatePullingIndex} onTouchEnd={this.stopPulling}>{options.verses.spans}</div>
+          <Scripture />
         </SwipeableViews>
       </div>
     );
@@ -148,4 +166,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = {
+  setVerses: setVerses
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
