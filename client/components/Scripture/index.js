@@ -13,9 +13,12 @@ class Scripture extends Component {
   constructor() {
     super();
     this.state = {
-      index: 101
+      index: 101,
+      y: undefined
     }
     this.changeIndex = this.changeIndex.bind(this);
+    this.saveY = this.saveY.bind(this);
+    this.toggleAddSection = this.toggleAddSection.bind(this);
   }
 
   changeIndex(index) {
@@ -33,6 +36,18 @@ class Scripture extends Component {
     this.setState({index: index});
   }
 
+  saveY(e) {
+    this.setState({y: e.touches[0].clientY})
+  }
+
+  toggleAddSection(e) {
+    if (e.touches[0].clientY > this.state.y + 20) {
+      document.getElementById('nav-add-section').style.opacity = 0;
+    } else if (e.touches[0].clientY < this.state.y - 20) {
+      document.getElementById('nav-add-section').style.opacity = 1;
+    }
+  }
+
   render() {
 
     let verses = this.props.scripture.verses.map((verse, i) => {
@@ -40,7 +55,7 @@ class Scripture extends Component {
     });
 
     return (
-      <div className="Scripture">
+      <div className="Scripture" onTouchStart={this.saveY} onTouchMove={this.toggleAddSection}>
         {verses.length > 100 ? (
           <SwipeableViews children={verses} index={this.state.index}
             onChangeIndex={this.changeIndex} style={{'height': '100%'}}>

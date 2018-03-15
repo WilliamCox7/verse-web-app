@@ -1,4 +1,5 @@
 import { React, Component, connect } from '../../packages';
+import { Menu } from '../';
 import { setNavIndex, setSwipeIndex } from '../../reducers/nav';
 import { logoSmall } from '../../assets';
 import './style.scss';
@@ -12,12 +13,25 @@ class Nav extends Component {
 
   constructor() {
     super();
+    this.state = {
+      showMenu: false
+    }
     this.updateIndices = this.updateIndices.bind(this);
+    this.showMenu = this.showMenu.bind(this);
+    this.hideMenu = this.hideMenu.bind(this);
   }
 
   updateIndices() {
     this.props.nav.index === 0 ? this.props.setNavIndex(1) : this.props.setNavIndex(0);
     this.props.setSwipeIndex(0);
+  }
+
+  showMenu() {
+    this.setState({showMenu: true});
+  }
+
+  hideMenu() {
+    this.setState({showMenu: false});
   }
 
   render() {
@@ -32,6 +46,12 @@ class Nav extends Component {
         <div className="settings flex jc-fe ai-c">
           <i className="material-icons">settings</i>
         </div>
+        {this.props.nav.index > 0 && !this.state.showMenu ? (
+          <div onTouchEnd={this.showMenu} id="nav-add-section" className="add-section flex jc-c ai-c">
+            <h1>+</h1>
+          </div>
+        ) : null}
+        <Menu show={this.state.showMenu} hideMenu={this.hideMenu} />
       </div>
     );
   }

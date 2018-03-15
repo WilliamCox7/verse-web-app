@@ -157,7 +157,7 @@ class Home extends Component {
 
     return (
       <div className="Home">
-        <SwipeableViews index={this.props.nav.index} onChangeIndex={(index) => this.setVerse(options, index)}>
+        <SwipeableViews style={{margin: '13px'}} index={this.props.nav.index} onChangeIndex={(index) => this.setVerse(options, index)}>
           <div>
             <div className="search-ref flex jc-sb">
               <div className="selects flex">
