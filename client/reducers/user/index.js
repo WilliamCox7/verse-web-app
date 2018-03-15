@@ -1,7 +1,8 @@
 const SET = 'user/SET';
 
 const initState = {
-  picture: null
+  picture: null,
+  userId: null
 }
 
 /**
@@ -16,7 +17,8 @@ export default function reducer(state=initState, action) {
   switch(action.type) {
 
     case SET:
-      editState.picture = action.payload;
+      editState.picture = action.url;
+      editState.userId = action.userId;
       return Object.assign({}, state, editState);
 
     default: return state;
@@ -24,9 +26,10 @@ export default function reducer(state=initState, action) {
   }
 }
 
-export function setUser(url) {
+export function setUser(url, userId) {
   return {
     type: SET,
-    payload: url
+    url: url,
+    userId: userId
   }
 }

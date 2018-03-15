@@ -56,7 +56,8 @@ class HandleFbRedirect extends Component {
       FB.api(`/${response.authResponse.userID}/picture`, 'GET', {
         "redirect": "false"
       }, function(response) {
-        self.props.setUser(response.data.url);
+        console.log(response);
+        self.props.setUser(response.data.url, response.authResponse.userID);
       });
       self.props.history.push('/');
       self.props.updatePathname('/');
