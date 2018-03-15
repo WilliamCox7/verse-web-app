@@ -4,7 +4,13 @@ const SET = 'scripture/SET';
 const ADD_COM = 'scripture/ADD_COM';
 
 const initState = {
-  reference: {},
+  reference: {
+    abrString: '1 Ne 10:26',
+    work: 'bofm',
+    book: '1 Nephi',
+    chap: 1,
+    vers: 1
+  },
   comments: []
 }
 

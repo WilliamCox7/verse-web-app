@@ -42,6 +42,12 @@ pre {
           justify-content: space-between;
 }
 
+.jc-fe {
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
 .ai-c {
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -58,4 +64,47 @@ pre {
 .fw-w {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+}
+
+input {
+  width: 100%;
+  background: $lightgray;
+  border-radius: 6px;
+  border: none;
+  padding: 12px;
+  color: $black;
+  &::-webkit-input-placeholder {
+    color: $midgray;
+  }
+  &:-ms-input-placeholder {
+    color: $midgray;
+  }
+  &::-ms-input-placeholder {
+    color: $midgray;
+  }
+  &::placeholder {
+    color: $midgray;
+  }
+}
+
+select {
+  border-radius: 6px;
+  border: none;
+  padding: 12px;
+  color: $black;
+  padding-right: 24px;
+  min-width: 45px;
+  background: url('./assets/select-arrow.svg') no-repeat right $lightgray;
+  -webkit-appearance: none;
+}
+
+button {
+  background: $lightgray;
+  border-radius: 6px;
+  border: none;
+  color: $midgray;
+  padding: 12px;
+  &:hover {
+    color: $black;
+  }
 }

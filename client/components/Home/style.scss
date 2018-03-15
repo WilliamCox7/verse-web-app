@@ -1,15 +1,26 @@
 @import "../../vars.scss";
 
 .Home {
-  .logo {
-    width: 100vw;
-    height: 100vh;
-    img {
-      width: 100px;
+  padding: 15px;
+  height: calc(100vh - 50px);
+  .search-ref {
+    margin-bottom: 15px;
+    select {
+      margin-right: 6px;
+      max-width: 100px;
     }
   }
-  .fb-login-button {
-    position: absolute;
-    bottom: 90px;
+  .swipe-list {
+    margin-left: 12px;
+    height: calc(100vh - 175px);
+    -ms-touch-action: none;
+    touch-action: none;
+    .active {
+      color: $purple;
+    }
+    span {
+      margin-bottom: 8px;
+      color: $darkgray;
+    }
   }
 }

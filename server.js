@@ -11,8 +11,6 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/build'));
 
 // routes
-app.get('/scripture', ss.getScripture);
-app.post('/comment', ss.addComment);
 
 // wildcard route - allows for browser refresh while using react router
 app.get('*', (req, res) => {
