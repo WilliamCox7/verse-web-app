@@ -1,5 +1,5 @@
 import { React, Component, SwipeableViews, connect, axios } from '../../packages';
-import { addScriptureToEnd, addScriptureToStart, setIndices, setReference } from '../../reducers/scripture';
+import { addScriptureToEnd, addScriptureToStart, setReference } from '../../reducers/scripture';
 import { Verse } from '../';
 import './style.scss';
 
@@ -16,14 +16,6 @@ class Scripture extends Component {
       index: 101
     }
     this.changeIndex = this.changeIndex.bind(this);
-  }
-
-  componentDidMount() {
-    let indices = [];
-    for (var i = 0; i < 100; i++) {
-      indices.push(false);
-    }
-    this.props.setIndices(indices);
   }
 
   changeIndex(index) {
@@ -68,7 +60,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   addScriptureToEnd: addScriptureToEnd,
   addScriptureToStart: addScriptureToStart,
-  setIndices: setIndices,
   setReference: setReference
 }
 

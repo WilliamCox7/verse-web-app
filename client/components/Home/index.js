@@ -2,6 +2,7 @@ import { React, Component, connect, SwipeableViews, axios } from '../../packages
 import { Scripture } from '../';
 import { buildOptionsFor } from './modules';
 import { setVerses } from '../../reducers/scripture';
+import { setNavIndex, setSwipeIndex } from '../../reducers/nav';
 import './style.scss';
 
 /**
@@ -20,8 +21,7 @@ class Home extends Component {
       versIndex: 0,
       pullingList: undefined,
       y: undefined,
-      pullingDisabled: false,
-      swipeIndex: 0
+      pullingDisabled: false
     }
     this.changeIndex = this.changeIndex.bind(this);
     this.changeIndexFromSpan = this.changeIndexFromSpan.bind(this);
@@ -34,6 +34,19 @@ class Home extends Component {
     this.setVerse = this.setVerse.bind(this);
   }
 
+  componentDidMount() {
+    axios.get(`/verse/Old Testament/Genesis/1/1`).then((response) => {
+      let indices = [];
+      for (var i = 0; i < 100; i++) {
+        indices.push(false);
+      }
+      response.data.forEach((verse) => {
+        indices.push(verse);
+      });
+      this.props.setVerses(indices);
+    });
+  }
+
   changeIndex(e) {
     let newState = Object.assign({}, this.state);
     newState[e.target.name] = Number(e.target.value);
@@ -42,12 +55,16 @@ class Home extends Component {
 
   changeIndexFromSpan(e, indexToUpdate) {
     let newState = Object.assign({}, this.state);
-    let nextIndex = newState.swipeIndex + 1;
+    let nextIndex = this.props.nav.swipeIndex + 1;
     newState[indexToUpdate] = Number(e.target.getAttribute('data-key'));
-    if (nextIndex < 4) {
-      newState.swipeIndex = nextIndex;
-    }
-    this.setState(newState);
+    this.setState(newState, () => {
+      if (nextIndex < 4) {
+        this.props.setSwipeIndex(nextIndex);
+      } else if (nextIndex === 4) {
+        let options = buildOptionsFor(this);
+        this.setVerse(options, 1);
+      }
+    });
   }
 
   setPulling(e, list) {
@@ -111,18 +128,27 @@ class Home extends Component {
   }
 
   updatedSwipeIndex(index) {
-    this.setState({swipeIndex: index});
+    this.props.setSwipeIndex(index);
   }
 
-  setVerse(o) {
-    let wi = this.state.workIndex;
-    let bi = this.state.bookIndex;
-    let ci = this.state.chapIndex;
-    let vi = this.state.versIndex;
-    axios.get(`/verse/${o.works.arr[wi]}/${o.books.arr[bi]}/${o.chapters.arr[ci]}/${o.verses.arr[vi]}`).then((response) => {
-      console.log(response);
-      this.props.setVerses(response.data);
-    });
+  setVerse(o, index) {
+    if (index !== 0) {
+      let wi = this.state.workIndex;
+      let bi = this.state.bookIndex;
+      let ci = this.state.chapIndex;
+      let vi = this.state.versIndex;
+      axios.get(`/verse/${o.works.arr[wi]}/${o.books.arr[bi]}/${o.chapters.arr[ci]}/${o.verses.arr[vi]}`).then((response) => {
+        let indices = [];
+        for (var i = 0; i < 100; i++) {
+          indices.push(false);
+        }
+        response.data.forEach((verse) => {
+          indices.push(verse);
+        });
+        this.props.setVerses(indices);
+      });
+      this.props.setNavIndex(index);
+    }
   }
 
   render() {
@@ -131,7 +157,7 @@ class Home extends Component {
 
     return (
       <div className="Home">
-        <SwipeableViews onChangeIndex={() => this.setVerse(options)}>
+        <SwipeableViews index={this.props.nav.index} onChangeIndex={(index) => this.setVerse(options, index)}>
           <div>
             <div className="search-ref flex jc-sb">
               <div className="selects flex">
@@ -141,7 +167,7 @@ class Home extends Component {
                 <select value={this.state.versIndex} name="versIndex" onChange={this.changeIndex}>{options.verses.options}</select>
               </div>
             </div>
-            <SwipeableViews index={this.state.swipeIndex} onChangeIndex={this.updatedSwipeIndex} style={{'overflowY': 'scroll', 'height': 'calc(100vh - 175px)'}}
+            <SwipeableViews index={this.props.nav.swipeIndex} onChangeIndex={this.updatedSwipeIndex} style={{'overflowY': 'scroll', 'height': 'calc(100vh - 175px)'}}
               onSwitching={this.disablePulling} onTransitionEnd={this.enablePulling}>
               <div className="swipe-list flex fd-c fw-w" id="work" onTouchStart={(e) => this.setPulling(e, 'work')}
                 onTouchMove={this.updatePullingIndex} onTouchEnd={this.stopPulling}>{options.works.spans}</div>
@@ -162,12 +188,15 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    scripture: state.scripture
+    scripture: state.scripture,
+    nav: state.nav
   }
 }
 
 const mapDispatchToProps = {
-  setVerses: setVerses
+  setVerses: setVerses,
+  setNavIndex: setNavIndex,
+  setSwipeIndex: setSwipeIndex
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -2,7 +2,6 @@ const SET = 'scripture/SET';
 const ADD_COM = 'scripture/ADD_COM';
 const ADD_END = 'scripture/ADD_END';
 const ADD_STT = 'scripture/ADD_STT';
-const SET_IND = 'scripture/SET_IND';
 const SET_REF = 'scripture/SET_REF';
 
 const initState = {
@@ -24,10 +23,8 @@ export default function reducer(state=initState, action) {
   switch(action.type) {
 
     case SET:
-      p.forEach((verse) => {
-        editState.verses.push(verse);
-      });
-      editState.abrString = `${p[1].bookAbr} ${p[1].chapter}:${p[1].verse}`;
+      editState.verses = action.payload;
+      editState.abrString = `${p[101].bookAbr} ${p[101].chapter}:${p[101].verse}`;
       return Object.assign({}, state, editState);
 
     case ADD_END:
@@ -36,10 +33,6 @@ export default function reducer(state=initState, action) {
 
     case ADD_STT:
       editState.verses[action.index] = action.payload;
-      return Object.assign({}, state, editState);
-
-    case SET_IND:
-      editState.verses = action.payload;
       return Object.assign({}, state, editState);
 
     case SET_REF:
@@ -91,13 +84,6 @@ export function addScriptureToStart(verse, index) {
     type: ADD_STT,
     payload: verse,
     index: index
-  }
-}
-
-export function setIndices(indices) {
-  return {
-    type: SET_IND,
-    payload: indices
   }
 }
 
