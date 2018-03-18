@@ -1,5 +1,5 @@
 import { React, Component, connect } from '../../packages';
-import { Menu } from '../';
+import { Menu, Modal } from '../';
 import { setNavIndex, setSwipeIndex } from '../../reducers/nav';
 import { logoSmall } from '../../assets';
 import './style.scss';
@@ -14,11 +14,15 @@ class Nav extends Component {
   constructor() {
     super();
     this.state = {
-      showMenu: false
+      showMenu: false,
+      showModal: false,
+      modalType: undefined
     }
     this.updateIndices = this.updateIndices.bind(this);
     this.showMenu = this.showMenu.bind(this);
     this.hideMenu = this.hideMenu.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   updateIndices() {
@@ -32,6 +36,14 @@ class Nav extends Component {
 
   hideMenu() {
     this.setState({showMenu: false});
+  }
+
+  openModal(type) {
+    this.setState({showMenu: false, showModal: true, modalType: type});
+  }
+
+  closeModal() {
+    this.setState({showModal: false, modalType: undefined});
   }
 
   render() {
@@ -51,7 +63,12 @@ class Nav extends Component {
             <h1>+</h1>
           </div>
         ) : null}
-        <Menu show={this.state.showMenu} hideMenu={this.hideMenu} />
+        {this.state.showMenu ? (
+          <Menu hideMenu={this.hideMenu} openModal={this.openModal} />
+        ) : null}
+        {this.state.showModal ? (
+          <Modal type={this.state.modalType} closeModal={this.closeModal} refId={this.props.nav.swipeIndex} />
+        ) : null}
       </div>
     );
   }

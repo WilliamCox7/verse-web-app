@@ -3,9 +3,13 @@ const ADD_COM = 'scripture/ADD_COM';
 const ADD_END = 'scripture/ADD_END';
 const ADD_STT = 'scripture/ADD_STT';
 const SET_REF = 'scripture/SET_REF';
+const ADD_ADD = 'scripture/ADD_ADD';
+const SET_IND = 'scripture/SET_IND';
 
 const initState = {
   abrString: 'Gen 1:1',
+  refId: undefined,
+  index: 101,
   verses: [],
   comments: []
 }
@@ -25,6 +29,7 @@ export default function reducer(state=initState, action) {
     case SET:
       editState.verses = action.payload;
       editState.abrString = `${p[101].bookAbr} ${p[101].chapter}:${p[101].verse}`;
+      editState.refId = p[101]._id;
       return Object.assign({}, state, editState);
 
     case ADD_END:
@@ -37,6 +42,15 @@ export default function reducer(state=initState, action) {
 
     case SET_REF:
       editState.abrString = `${p.bookAbr} ${p.chapter}:${p.verse}`;
+      editState.refId = p._id;
+      return Object.assign({}, state, editState);
+
+    case ADD_ADD:
+      editState.verses[editState.index] = Object.assign({}, p, editState.verses[editState.index]);
+      return Object.assign({}, state, editState);
+
+    case SET_IND:
+      editState.index = action.payload;
       return Object.assign({}, state, editState);
 
     case ADD_COM:
@@ -91,5 +105,19 @@ export function setReference(verse) {
   return {
     type: SET_REF,
     payload: verse
+  }
+}
+
+export function addAddition(form) {
+  return {
+    type: ADD_ADD,
+    payload: form
+  }
+}
+
+export function setIndex(index) {
+  return {
+    type: SET_IND,
+    payload: index
   }
 }

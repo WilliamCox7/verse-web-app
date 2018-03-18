@@ -69,7 +69,35 @@ pre {
 input {
   width: 100%;
   background: $lightgray;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   border-radius: 6px;
+  margin-bottom: 4px;
+  border: none;
+  padding: 12px;
+  color: $black;
+  &::-webkit-input-placeholder {
+    color: $midgray;
+  }
+  &:-ms-input-placeholder {
+    color: $midgray;
+  }
+  &::-ms-input-placeholder {
+    color: $midgray;
+  }
+  &::placeholder {
+    color: $midgray;
+  }
+}
+
+textarea {
+  width: 100%;
+  resize: none;
+  background: $lightgray;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 6px;
+  margin-bottom: 2px;
   border: none;
   padding: 12px;
   color: $black;
@@ -104,6 +132,8 @@ button {
   border: none;
   color: $midgray;
   padding: 12px;
+  margin-left: 4px;
+  margin-bottom: 4px;
   &:hover {
     color: $black;
   }

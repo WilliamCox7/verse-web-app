@@ -6,6 +6,7 @@ import { BrowserRouter, Switch, Route, Link, withRouter } from "react-router-dom
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import SwipeableViews from 'react-swipeable-views';
+import autosize from 'autosize';
 
 /**
  * exports all npm packages for easy access
@@ -19,5 +20,6 @@ export {
   BrowserRouter, Switch, Route, Link, withRouter,
   thunk,
   axios,
-  SwipeableViews
+  SwipeableViews,
+  autosize
 }

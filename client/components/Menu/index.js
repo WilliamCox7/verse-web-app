@@ -10,37 +10,41 @@ import './style.scss';
 class Menu extends Component {
   render() {
     return (
-      <div className="Menu" style={!this.props.show ? {display: 'none'} : null}>
+      <div className="Menu">
         <div className="button-container">
-          <div className="menu-button flex jc-c ai-c">
-            <img src={context} />
-            <h1>context</h1>
-          </div>
-          <div className="menu-button flex jc-c ai-c">
+          {!this.props.scripture.verses[this.props.scripture.index].context ? (
+            <div className="menu-button flex jc-c ai-c" onClick={() => this.props.openModal('context')}>
+              <img src={context} />
+              <h1>context</h1>
+            </div>
+          ) : null}
+          <div className="menu-button flex jc-c ai-c" onClick={() => this.props.openModal('person')}>
             <img src={geneology} />
             <h1>person</h1>
           </div>
-          <div className="menu-button flex jc-c ai-c">
+          <div className="menu-button flex jc-c ai-c" onClick={() => this.props.openModal('link')}>
             <img src={link} />
             <h1>link</h1>
           </div>
-          <div className="menu-button flex jc-c ai-c">
+          <div className="menu-button flex jc-c ai-c" onClick={() => this.props.openModal('military')}>
             <img src={military} />
             <h1>military</h1>
           </div>
-          <div className="menu-button flex jc-c ai-c">
+          <div className="menu-button flex jc-c ai-c" onClick={() => this.props.openModal('prophet')}>
             <img src={prophet} />
             <h1>prophet</h1>
           </div>
-          <div className="menu-button flex jc-c ai-c">
+          <div className="menu-button flex jc-c ai-c" onClick={() => this.props.openModal('ruler')}>
             <img src={ruler} />
             <h1>ruler</h1>
           </div>
-          <div className="menu-button flex jc-c ai-c">
-            <img src={timeline} />
-            <h1>timeline</h1>
-          </div>
-          <div className="comment-button flex jc-c ai-c">
+          {!this.props.scripture.verses[this.props.scripture.index].context ? (
+            <div className="menu-button flex jc-c ai-c" onClick={() => this.props.openModal('timeline')}>
+              <img src={timeline} />
+              <h1>timeline</h1>
+            </div>
+          ) : null}
+          <div className="comment-button flex jc-c ai-c" onClick={() => this.props.openModal('comment')}>
             <img src={this.props.user.url} />
             <h1>comment</h1>
           </div>
@@ -55,7 +59,8 @@ class Menu extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    scripture: state.scripture
   }
 }
 

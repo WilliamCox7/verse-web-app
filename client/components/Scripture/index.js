@@ -1,5 +1,5 @@
 import { React, Component, SwipeableViews, connect, axios } from '../../packages';
-import { addScriptureToEnd, addScriptureToStart, setReference } from '../../reducers/scripture';
+import { addScriptureToEnd, addScriptureToStart, setReference, setIndex } from '../../reducers/scripture';
 import { Verse } from '../';
 import './style.scss';
 
@@ -13,7 +13,6 @@ class Scripture extends Component {
   constructor() {
     super();
     this.state = {
-      index: 101,
       y: undefined
     }
     this.changeIndex = this.changeIndex.bind(this);
@@ -24,16 +23,16 @@ class Scripture extends Component {
   changeIndex(index) {
     let verses = this.props.scripture.verses;
     if (!verses[index-1]) {
-      axios.get('/verse/' + verses[index].prevId).then((response) => {
-        this.props.addScriptureToStart(response.data[0], index-1);
+      axios.get(`/verse/${verses[index].prevId}/${this.props.user.userId}`).then((response) => {
+        this.props.addScriptureToStart(response.data, index-1);
       });
     } else if (index === verses.length-1) {
-      axios.get('/verse/' + verses[verses.length-1].nextId).then((response) => {
-        this.props.addScriptureToEnd(response.data[0]);
+      axios.get(`/verse/${verses[verses.length-1].nextId}/${this.props.user.userId}`).then((response) => {
+        this.props.addScriptureToEnd(response.data);
       });
     }
     this.props.setReference(verses[index]);
-    this.setState({index: index});
+    this.props.setIndex(index);
   }
 
   saveY(e) {
@@ -57,7 +56,7 @@ class Scripture extends Component {
     return (
       <div className="Scripture" onTouchStart={this.saveY} onTouchMove={this.toggleAddSection}>
         {verses.length > 100 ? (
-          <SwipeableViews children={verses} index={this.state.index}
+          <SwipeableViews children={verses} index={this.props.scripture.index}
             onChangeIndex={this.changeIndex} style={{'height': '100%'}}>
           </SwipeableViews>
         ) : null}
@@ -68,14 +67,16 @@ class Scripture extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    scripture: state.scripture
+    scripture: state.scripture,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = {
   addScriptureToEnd: addScriptureToEnd,
   addScriptureToStart: addScriptureToStart,
-  setReference: setReference
+  setReference: setReference,
+  setIndex: setIndex
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scripture);

@@ -11,8 +11,9 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/build'));
 
 // routes
-app.get('/verse/:work/:book/:chap/:vers', ss.getInitVerses);
-app.get('/verse/:id', ss.getVerse);
+app.get('/verse/:work/:book/:chap/:vers/:userId', ss.getInitVerses);
+app.get('/verse/:id/:userId', ss.getVerse);
+app.post('/upsert/:table', ss.upsert);
 
 // wildcard route - allows for browser refresh while using react router
 app.get('*', (req, res) => {

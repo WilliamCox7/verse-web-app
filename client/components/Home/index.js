@@ -35,7 +35,9 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/verse/Old Testament/Genesis/1/1`).then((response) => {
+    let user = localStorage.getItem("user");
+    if (user) user = JSON.parse(user);
+    axios.get(`/verse/Old Testament/Genesis/1/1/${user.userId}`).then((response) => {
       let indices = [];
       for (var i = 0; i < 100; i++) {
         indices.push(false);
@@ -137,7 +139,7 @@ class Home extends Component {
       let bi = this.state.bookIndex;
       let ci = this.state.chapIndex;
       let vi = this.state.versIndex;
-      axios.get(`/verse/${o.works.arr[wi]}/${o.books.arr[bi]}/${o.chapters.arr[ci]}/${o.verses.arr[vi]}`).then((response) => {
+      axios.get(`/verse/${o.works.arr[wi]}/${o.books.arr[bi]}/${o.chapters.arr[ci]}/${o.verses.arr[vi]}/${this.props.user.userId}`).then((response) => {
         let indices = [];
         for (var i = 0; i < 100; i++) {
           indices.push(false);
@@ -146,6 +148,8 @@ class Home extends Component {
           indices.push(verse);
         });
         this.props.setVerses(indices);
+      }).catch((err) => {
+        console.log(err);
       });
       this.props.setNavIndex(index);
     }
@@ -189,7 +193,8 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return {
     scripture: state.scripture,
-    nav: state.nav
+    nav: state.nav,
+    user: state.user
   }
 }
 
