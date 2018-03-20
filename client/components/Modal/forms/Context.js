@@ -7,10 +7,10 @@ import { React, Component, autosize } from '../../../packages';
 
 class Context extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      context: ""
+      context: props.verse.context ? props.verse.context : ""
     }
     this.save = this.save.bind(this);
     this.update = this.update.bind(this);

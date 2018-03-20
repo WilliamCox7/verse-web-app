@@ -1,6 +1,6 @@
 import { React, Component, connect } from '../../packages';
 import { Menu, Modal } from '../';
-import { setNavIndex, setSwipeIndex } from '../../reducers/nav';
+import { setNavIndex, setSwipeIndex, openModal, closeModal } from '../../reducers/nav';
 import { logoSmall } from '../../assets';
 import './style.scss';
 
@@ -14,15 +14,12 @@ class Nav extends Component {
   constructor() {
     super();
     this.state = {
-      showMenu: false,
-      showModal: false,
-      modalType: undefined
+      showMenu: false
     }
     this.updateIndices = this.updateIndices.bind(this);
     this.showMenu = this.showMenu.bind(this);
     this.hideMenu = this.hideMenu.bind(this);
     this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
   }
 
   updateIndices() {
@@ -39,11 +36,8 @@ class Nav extends Component {
   }
 
   openModal(type) {
-    this.setState({showMenu: false, showModal: true, modalType: type});
-  }
-
-  closeModal() {
-    this.setState({showModal: false, modalType: undefined});
+    this.hideMenu();
+    this.props.openModal(type);
   }
 
   render() {
@@ -63,11 +57,9 @@ class Nav extends Component {
             <h1>+</h1>
           </div>
         ) : null}
-        {this.state.showMenu ? (
-          <Menu hideMenu={this.hideMenu} openModal={this.openModal} />
-        ) : null}
-        {this.state.showModal ? (
-          <Modal type={this.state.modalType} closeModal={this.closeModal} refId={this.props.nav.swipeIndex} />
+        <Menu show={this.state.showMenu} hideMenu={this.hideMenu} openModal={this.openModal} />
+        {this.props.nav.showModal ? (
+          <Modal type={this.props.nav.modalType} closeModal={this.props.closeModal} />
         ) : null}
       </div>
     );
@@ -83,7 +75,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setNavIndex: setNavIndex,
-  setSwipeIndex: setSwipeIndex
+  setSwipeIndex: setSwipeIndex,
+  openModal: openModal,
+  closeModal: closeModal
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);

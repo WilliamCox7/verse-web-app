@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 import SwipeableViews from 'react-swipeable-views';
 import autosize from 'autosize';
+import { Holdable, defineHold } from 'react-touch';
 
 /**
  * exports all npm packages for easy access
@@ -21,5 +22,6 @@ export {
   thunk,
   axios,
   SwipeableViews,
-  autosize
+  autosize,
+  Holdable, defineHold
 }

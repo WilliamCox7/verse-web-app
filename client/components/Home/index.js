@@ -158,6 +158,7 @@ class Home extends Component {
   render() {
 
     let options = buildOptionsFor(this);
+    let updIndex = this.props.nav.index;
 
     return (
       <div className="Home">

@@ -46,7 +46,7 @@ export default function reducer(state=initState, action) {
       return Object.assign({}, state, editState);
 
     case ADD_ADD:
-      editState.verses[editState.index] = Object.assign({}, p, editState.verses[editState.index]);
+      editState.verses[editState.index] = Object.assign({}, editState.verses[editState.index], p);
       return Object.assign({}, state, editState);
 
     case SET_IND:

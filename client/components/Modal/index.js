@@ -21,8 +21,9 @@ class Modal extends Component {
   }
 
   buildForm(type) {
+    let verse = this.props.scripture.verses[this.props.scripture.index];
     switch(type) {
-      case 'context': return <Context save={this.save} error={this.error} />;
+      case 'context': return <Context save={this.save} error={this.error} verse={verse} />;
       case 'person': return <Person save={this.save} error={this.error} />;
       case 'link': return <Link save={this.save} error={this.error} />;
       case 'military': return <SelectPerson save={this.save} type={type} error={this.error} />;

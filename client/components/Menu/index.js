@@ -9,10 +9,14 @@ import './style.scss';
 
 class Menu extends Component {
   render() {
+
+    let scripture = this.props.scripture;
+    let hasContext = scripture.verses[scripture.index] ? scripture.verses[scripture.index].context : null;
+
     return (
-      <div className="Menu">
+      <div className="Menu" style={this.props.show ? null : {display: "none"}}>
         <div className="button-container">
-          {!this.props.scripture.verses[this.props.scripture.index].context ? (
+          {!hasContext ? (
             <div className="menu-button flex jc-c ai-c" onClick={() => this.props.openModal('context')}>
               <img src={context} />
               <h1>context</h1>
@@ -38,7 +42,7 @@ class Menu extends Component {
             <img src={ruler} />
             <h1>ruler</h1>
           </div>
-          {!this.props.scripture.verses[this.props.scripture.index].context ? (
+          {!hasContext ? (
             <div className="menu-button flex jc-c ai-c" onClick={() => this.props.openModal('timeline')}>
               <img src={timeline} />
               <h1>timeline</h1>

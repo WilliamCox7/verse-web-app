@@ -1,4 +1,5 @@
-import { React, Component } from '../../packages';
+import { React, Component, Holdable, defineHold, connect } from '../../packages';
+import { openModal } from '../../reducers/nav';
 import { Circle } from '../';
 import { context } from '../../assets';
 import './style.scss';
@@ -16,10 +17,16 @@ class Verse extends Component {
       showInfo: true
     }
     this.hideInfo = this.hideInfo.bind(this);
+    this.openModal = this.openModal.bind(this);
   }
 
   hideInfo() {
     this.setState({showInfo: !this.state.showInfo});
+  }
+
+  openModal(type) {
+    window.navigator.vibrate(10);
+    this.props.openModal(type)
   }
 
   render() {
@@ -39,9 +46,11 @@ class Verse extends Component {
             </div>
             {this.props.verse.context ? (
               <div className="context-wrapper flex">
-                <div className="verse-context">
-                  <h1>{this.props.verse.context}</h1>
-                </div>
+                <Holdable config={hold} onHoldComplete={() => this.openModal('context')}>
+                  <div className="verse-context">
+                    <h1>{this.props.verse.context}</h1>
+                  </div>
+                </Holdable>
                 <Circle title="context" image={context} />
               </div>
             ) : null}
@@ -52,4 +61,10 @@ class Verse extends Component {
   }
 }
 
-export default Verse;
+const hold = defineHold({holdFor: 500});
+
+const mapDispatchToProps = {
+  openModal: openModal
+}
+
+export default connect(null, mapDispatchToProps)(Verse);
